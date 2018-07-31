@@ -1,0 +1,11 @@
+---
+title: "Least Squares method illustration"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The illustration of the "Least Squares" method I wish somebody would show me when I was 12.
+
