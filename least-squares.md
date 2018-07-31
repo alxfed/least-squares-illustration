@@ -151,7 +151,7 @@ print(p2)
 
 ![](least-squares_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
-If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... Just play with this picture in your mind for a little while. I wish somebody would show it to me when I was 10 years old and I would be able to do it then.
+If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... Just play with this picture in your mind for a little while. I wish somebody would have shown it to me when I was 10 years old and I would be able to do it then.
 
 The end.
 --------
