@@ -63,13 +63,33 @@ Now our 'wild guess' function f of x with our handmade parameters a and b entere
 ```{r}
 fxab <- function(x) a*x + b  # this is the function
 
+p0 <- p + stat_function(fun = fxab, 
+                       size = 0.1, 
+                       color = "blue")
+print(p0)
+```
+
+Cute. But we are supposed to demonstrate the "Least Squares" fitting of the so called "linear model". In R it's a single line of code:
+
+```{r}
+fxlm <- lm( y ~ x, h) # this line, fits the modey y~x to data h
+```
+
+Then we just rewrite the initial parameters a and b
+
+```{r}
+b <- as.numeric(coef(fxlm)[1]); a <- as.numeric(coef(fxlm)[2])
+
+# And plot the fitted line instead of our 'wild guess'
+
 p <- p + stat_function(fun = fxab, 
                        size = 0.1, 
                        color = "blue")
 print(p)
 ```
 
-Cute. Now let's work out the 'squares' themself. We can draw them in two ways: directed towards the line of the function or away from it. We will try both and see what is better, but for plotting them we will (unfortunately) need an 'inverse function' - x(y); but that is simple if the original function is a linear dependence.
+
+Now let's work out the 'squares' themself. We can draw them in two ways: directed towards the line of the function or away from it. We will try both and see what is better, but for plotting them we will (unfortunately) need an 'inverse function' - x(y); but that is simple if the original function is a linear dependence.
 
 ```{r}
 fyab <- function(y) y/a - b/a
@@ -99,7 +119,7 @@ They are not exactly 'squares' here, the are literally rectangles, but we will d
 p2 <- p + geom_rect(mapping = aes(xmin = ifelse(fyab(y) < x, x, 
                                         x - abs(fxab(x) - y)), 
                                  xmax = ifelse(fyab(y) < x, 
-                                        x, x + abs(fxab(x) - y)), 
+                                        x + abs(fxab(x) - y), x), 
                                  ymin = ifelse(fxab(x) < y, 
                                         y - abs(fxab(x) - y), y), 
                                  ymax = ifelse(fxab(x) < y, 
@@ -111,4 +131,16 @@ p2 <- p + geom_rect(mapping = aes(xmin = ifelse(fyab(y) < x, x,
 print(p2)
 ```
 
-I think I like this one better...
+I think I like this one better... As you can see, we don't need to decide, just make two versions and choose later if you don't know yet.
+
+And finally, if we fix the aspect ratio of the plot the rectangles will become squares and you will see the final illustration. 
+
+```{r}
+p2 <- p2 + coord_fixed(ratio = 1)
+print(p2)
+```
+
+If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... 
+  Just play with this picture in your mind for a little while. I wish somebody would show it to me when I was 10 years old and I would be able to do it then.
+
+## The end.
