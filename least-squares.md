@@ -23,11 +23,7 @@ We will start plotting right away; let's load ggplot, set the data source and th
 
 ``` r
 require(ggplot2)
-```
 
-    ## Loading required package: ggplot2
-
-``` r
 p <- ggplot(data = h, mapping = aes(x = x, xmin = 0, 
                                     xmax = 1, 
                                     ymin = 0, 
