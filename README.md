@@ -1,4 +1,4 @@
-📦 least-squares-illustration
+least-squares-illustration
 =======================
 
 The "Least Squares" illustration that makes it obvious and memorable.
@@ -8,10 +8,5 @@ The "Least Squares" illustration that makes it obvious and memorable.
 [Read about it here](least-squares.md)
 <br><br>
 
-License
--------
-
-This is free software. Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software.
 
 [image]: https://user-images.githubusercontent.com/4388478/43529905-ee4c471e-9571-11e8-9fdb-0f3e188ad777.png
