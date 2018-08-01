@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The task is actually very simple, we need to visualize the 'squares' in such an obvious way that you would never ask "what squares?" again. But first we need some 'data'. When you need 'data' you pull it straigh out of your... typed in table of 'experimental points' (with individual 'error margins'), here's a simple way to do it:
 
-```{r}
+```{r data_input}
 h <- read.delim(textConnection(
 "t x xmi xma y ymi yma
 0 0.2 0.15 0.5 0.25 0.15 0.45
@@ -27,19 +27,19 @@ a <- c(0.6); b <- c(0.2)  # These are the 'wild guesses' of the linear model coe
 
 We will start plotting right away; let's load ggplot, set the data source and the size of the plot as a first step.
 
-```{r}
-require(ggplot2)
+```{r init_plot}
+library(ggplot2)
 
 p <- ggplot(data = h, mapping = aes(x = x, xmin = 0, 
                                     xmax = 1, 
                                     ymin = 0, 
                                     ymax = 1),
-            legend = TRUE)
+            legend = FALSE)
 ```
 
 Now we plot the (x,y) points and look at the picture for the first time (with the help of 'print()').
 
-```{r}
+```{r data_points}
 p <- p + geom_point(mapping = aes(x = x, y = y), 
                                   size = 2, 
                                   color = "red")
@@ -48,7 +48,7 @@ print(p)
 
 Let's add the error bars too.
 
-```{r}
+```{r data_points_with_errorbars}
 p <- p + geom_errorbar(mapping = aes(x = x, 
                                      ymin = ymi, 
                                      ymax = yma), 
@@ -60,7 +60,7 @@ print(p)
 
 Now our 'wild guess' function f of x with our handmade parameters a and b entered together with the data on step one.
 
-```{r}
+```{r data_and_wild_guess}
 fxab <- function(x) a*x + b  # this is the function
 
 p0 <- p + stat_function(fun = fxab, 
@@ -71,13 +71,13 @@ print(p0)
 
 Cute. But we are supposed to demonstrate the "Least Squares" fitting of the so called "linear model". In R it's a single line of code:
 
-```{r}
-fxlm <- lm( y ~ x, h) # this line, fits the modey y~x to data h
+```{r linear_fitting}
+fxlm <- lm( y ~ x, h) # this line fits the model y~x to data h
 ```
 
 Then we just rewrite the initial parameters a and b
 
-```{r}
+```{r data_with_fit_line}
 b <- as.numeric(coef(fxlm)[1]); a <- as.numeric(coef(fxlm)[2])
 
 # And plot the fitted line instead of our 'wild guess'
@@ -91,13 +91,13 @@ print(p)
 
 Now let's work out the 'squares' themself. We can draw them in two ways: directed towards the line of the function or away from it. We will try both and see what is better, but for plotting them we will (unfortunately) need an 'inverse function' - x(y); but that is simple if the original function is a linear dependence.
 
-```{r}
+```{r inverse_function}
 fyab <- function(y) y/a - b/a
 ```
 
 Now let's do some head scratching, drawing lines and points on a piece of paper in order to figure out the conditions, and, finally, plot the 'squares'/rectangles.
 
-```{r}
+```{r squares_turned_to_line}
 p1 <- p + geom_rect(mapping = aes(xmin = ifelse(fyab(y) < x, 
                                         x - abs(fxab(x) - y), x), 
                                  xmax = ifelse(fyab(y) < x, 
@@ -115,7 +115,7 @@ print(p1)
 
 They are not exactly 'squares' here, the are literally rectangles, but we will deal with it later, right now I would like to try plotting them pointing away from the line.
 
-```{r}
+```{r squares_turned_away_from_line}
 p2 <- p + geom_rect(mapping = aes(xmin = ifelse(fyab(y) < x, x, 
                                         x - abs(fxab(x) - y)), 
                                  xmax = ifelse(fyab(y) < x, 
@@ -135,7 +135,7 @@ I think I like this one better... As you can see, we don't need to decide, just 
 
 And finally, if we fix the aspect ratio of the plot the rectangles will become squares and you will see the final illustration. 
 
-```{r}
+```{r least_squares}
 p2 <- p2 + coord_fixed(ratio = 1)
 print(p2)
 ```
