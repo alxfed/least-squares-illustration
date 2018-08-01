@@ -22,7 +22,11 @@ a <- c(0.6); b <- c(0.2)  # These are the 'wild guesses' of the linear model coe
 We will start plotting right away; let's load ggplot, set the data source and the size of the plot as a first step.
 
 ``` r
+<<<<<<< HEAD
 library(ggplot2)
+=======
+require(ggplot2)
+>>>>>>> 9dcd9f540be457c78125531f9893928519510cdb
 
 p <- ggplot(data = h, mapping = aes(x = x, xmin = 0, 
                                     xmax = 1, 
