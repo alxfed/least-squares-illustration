@@ -22,7 +22,6 @@ a <- c(0.6); b <- c(0.2)  # These are the 'wild guesses' of the linear model coe
 We will start plotting right away; let's load ggplot, set the data source and the size of the plot as a first step.
 
 ``` r
-
 library(ggplot2)
 
 p <- ggplot(data = h, mapping = aes(x = x, xmin = 0, 
@@ -70,7 +69,32 @@ print(p0)
 
 ![](least-squares_files/figure-markdown_github/data_and_wild_guess-1.png)
 
-Cute. But we are supposed to demonstrate the "Least Squares" fitting of the so called "linear model". In R it's a single line of code:
+Let's draw the 'square' with an area equal to the sum of squares of distances.
+
+``` r
+d <- fxab(h$x) - h$y                   # distances from the line
+sqrs <- sapply(d, function(x) x^2)     # squares of distances for didactic purposes, instead of: sqrs <- d*d , which is faster
+ssqr <- sum(sqrs)                      # sum of squares of distances
+sq_side <- sqrt(ssqr)  # side of the square with area equal to the sum of squares
+
+x <- 1.0; y <- 0.0; sq <- data.frame(x, y) # we will draw the square here
+
+p0 <- p0 + geom_rect(data = sq, 
+                     mapping = aes(xmin = x - sq_side, xmax = x, 
+                                 ymin = y, ymax = y + sq_side),
+                   alpha = 0.2, 
+                   size = 0.1, 
+                   color = "black", 
+                   fill = "grey")
+
+print(p0)
+```
+
+![](least-squares_files/figure-markdown_github/a_square_of_distances-1.png)
+
+This is not exactly a 'square', the aspect ratio will be fixed later.
+
+So... We learned how to draw these things. But we are supposed to demonstrate the "Least Squares" fitting of the so called "linear model". In R it's a single line of code:
 
 ``` r
 fxlm <- lm( y ~ x, h) # this line fits the model y~x to data h
@@ -90,6 +114,29 @@ print(p)
 ```
 
 ![](least-squares_files/figure-markdown_github/data_with_fit_line-1.png)
+
+Then we calculate the dimensions of the sum of squares and plot it
+
+``` r
+d <- fxab(h$x) - h$y                   # distances from the line
+sqrs <- sapply(d, function(x) x^2)     # squares of distances for didactic purposes, instead of: sqrs <- d*d , which is faster
+ssqr <- sum(sqrs)                      # sum of squares of distances
+sq_side <- sqrt(ssqr)  # side of the square with area equal to the sum of squares
+
+p <- p + geom_rect(data = sq, 
+                     mapping = aes(xmin = x - sq_side, xmax = x, 
+                                 ymin = y, ymax = y + sq_side),
+                   alpha = 0.2, 
+                   size = 0.2, 
+                   color = "black", 
+                   fill = "grey")
+
+print(p)
+```
+
+![](least-squares_files/figure-markdown_github/fit_line_with_sqr-1.png)
+
+There it is
 
 Now let's work out the 'squares' themself. We can draw them in two ways: directed towards the line of the function or away from it. We will try both and see what is better, but for plotting them we will (unfortunately) need an 'inverse function' - x(y); but that is simple if the original function is a linear dependence.
 
@@ -150,7 +197,7 @@ print(p2)
 
 ### Explanation
 
-This picture shows the squares of distance from the 'experimental points' to the line. In order to visualise the function dist^2 we have drawn the areas proportional to these distances as squares. The sum of these areas depends on the way you draw the line between the points. If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... Just play with this picture in your mind for a little while. I wish somebody would have shown it to me when I was 10 years old and I would be able to do it then.
+This picture shows squares of the distance from the 'experimental points' to the line. In order to visualise the function dist^2 we have drawn the areas proportional to these distances as squares. The sum of these areas depends on the way you draw the line between the points. If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... Just play with this picture in your mind for a little while. I wish somebody would have shown it to me when I was 10 years old and I would be able to do it then.
 
 The end.
 --------

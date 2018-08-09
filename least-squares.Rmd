@@ -69,7 +69,31 @@ p0 <- p + stat_function(fun = fxab,
 print(p0)
 ```
 
-Cute. But we are supposed to demonstrate the "Least Squares" fitting of the so called "linear model". In R it's a single line of code:
+Let's draw the 'square' with an area equal to the sum of squares of distances.
+
+```{r a_square_of_distances}
+
+d <- fxab(h$x) - h$y                   # distances from the line
+sqrs <- sapply(d, function(x) x^2)     # squares of distances for didactic purposes, instead of: sqrs <- d*d , which is faster
+ssqr <- sum(sqrs)                      # sum of squares of distances
+sq_side <- sqrt(ssqr)  # side of the square with area equal to the sum of squares
+
+x <- 1.0; y <- 0.0; sq <- data.frame(x, y) # we will draw the square here
+
+p0 <- p0 + geom_rect(data = sq, 
+                     mapping = aes(xmin = x - sq_side, xmax = x, 
+                                 ymin = y, ymax = y + sq_side),
+                   alpha = 0.2, 
+                   size = 0.1, 
+                   color = "black", 
+                   fill = "grey")
+
+print(p0)
+```
+
+This is not exactly a 'square', the aspect ratio will be fixed later.
+
+So... We learned how to draw these things. But we are supposed to demonstrate the "Least Squares" fitting of the so called "linear model". In R it's a single line of code:
 
 ```{r linear_fitting}
 fxlm <- lm( y ~ x, h) # this line fits the model y~x to data h
@@ -88,6 +112,28 @@ p <- p + stat_function(fun = fxab,
 print(p)
 ```
 
+Then we calculate the dimensions of the sum of squares and plot it
+
+```{r fit_line_with_sqr}
+
+d <- fxab(h$x) - h$y                   # distances from the line
+sqrs <- sapply(d, function(x) x^2)     # squares of distances for didactic purposes, instead of: sqrs <- d*d , which is faster
+ssqr <- sum(sqrs)                      # sum of squares of distances
+sq_side <- sqrt(ssqr)  # side of the square with area equal to the sum of squares
+
+p <- p + geom_rect(data = sq, 
+                     mapping = aes(xmin = x - sq_side, xmax = x, 
+                                 ymin = y, ymax = y + sq_side),
+                   alpha = 0.2, 
+                   size = 0.2, 
+                   color = "black", 
+                   fill = "grey")
+
+print(p)
+
+```
+
+There it is
 
 Now let's work out the 'squares' themself. We can draw them in two ways: directed towards the line of the function or away from it. We will try both and see what is better, but for plotting them we will (unfortunately) need an 'inverse function' - x(y); but that is simple if the original function is a linear dependence.
 
