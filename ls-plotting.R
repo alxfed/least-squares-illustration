@@ -65,5 +65,5 @@ LSPlot <- function(h, a, b) {
                      fill = "grey")
   
   p <- p + coord_fixed(ratio = 1)
-  return p
+  return(p)
 }
