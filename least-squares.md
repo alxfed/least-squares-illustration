@@ -87,6 +87,13 @@ p0 <- p0 + geom_rect(data = sq,
                    color = "black", 
                    fill = "grey")
 
+x <- 0.9; y <- 0.05; tx <- data.frame(x, y)
+
+p0 <- p0 + geom_text(data = tx, mapping = 
+                    aes(x = x, y = y, label = "Sum of d^2"), 
+                    size = 2, 
+                    color = "black")
+
 print(p0)
 ```
 
@@ -130,6 +137,13 @@ p <- p + geom_rect(data = sq,
                    size = 0.2, 
                    color = "black", 
                    fill = "grey")
+
+x <- 0.92; y <- 0.05; tx <- data.frame(x, y)
+
+p <- p + geom_text(data = tx, mapping = 
+                    aes(x = x, y = y, label = "Sum of d^2"), 
+                    size = 2, 
+                    color = "black")
 
 print(p)
 ```

@@ -41,6 +41,14 @@ LSPlot <- function(h, a, b) {
                      color = "black", 
                      fill = "grey")
   
+  x <- 0.9; y <- 0.05; tx <- data.frame(x, y)
+  
+  p <- p + geom_text(data = tx, mapping = 
+                         aes(x = x, y = y, label = "Sum of d^2"), 
+                       size = 2, 
+                       color = "black")
+  
+  
   fyab <- function(y) y/a - b/a
 
   p <- p + geom_rect(mapping = aes(xmin = ifelse(fyab(y) < x, x, 
@@ -57,4 +65,5 @@ LSPlot <- function(h, a, b) {
                      fill = "grey")
   
   p <- p + coord_fixed(ratio = 1)
+  return p
 }
