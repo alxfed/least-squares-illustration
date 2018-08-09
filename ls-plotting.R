@@ -1,15 +1,6 @@
 # Least squares plotting, data comes from outside
 
-library(ggplot2)
-
-h <- read.delim(textConnection(
-"t x xmi xma y ymi yma
-0 0.2 0.15 0.5 0.25 0.15 0.45
-1 0.4 0.25 0.5 0.55 0.4 0.9
-2 0.6 0.4 0.65 0.45 0.2 0.7
-3 0.8 0.6 0.9 0.8 0.7 0.95"), 
-  sep=" ")
-a <- c(0.6); b <- c(0.2) 
+require(ggplot2)
 
 LSPlot <- function(h, a, b) {
   p <- ggplot(data = h, mapping = aes(x = x, xmin = 0, 
