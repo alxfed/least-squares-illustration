@@ -202,7 +202,44 @@ print(p2)
 
 ### Explanation
   This picture shows squares of the distance from the 'experimental points' to the line. In order to visualise the function dist^2 we have drawn the areas proportional to these distances as squares. The sum of these areas depends on the way you draw the line between the points.
-  If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... 
-  Just play with this picture in your mind for a little while. I wish somebody would have shown it to me when I was 10 years old and I would be able to do it then.
+  If you are like me (and many other people) and can in your mind imagine the parts of the picture moving, you immediatelly get an idea of how the whole method works. If you (in your imagination) start moving or tilting the line, the squares (and their area) will be changing in a certain way. The name of the game is to make the sum of all their areas as small as possible. Remember that the bigger the side of the square already is - the faster its area changes if you increase it a bit (and the faster it decreases if you make the side of the square smaller)... 
+  Just play with this picture in your mind for a little while. I wish somebody would have shown it to me when I was 10 years old and I would be able to do it then. If you can not - here are the pictures that will do this for you. The optimized picture is in the middle, the pictures with variations of parameters are around it.
 
-## The end.
+```{r grid_of_pictures}
+
+# 10% variations of slope and .1 absolute variations of the offset
+
+ap <- c(0.9*a, a, 1.1*a)
+bp <- c(b-.1, b, b+.1)
+
+# I've created a function that does what has been done above, now I will source it from the file
+
+source("ls-plotting.R")
+require(gtable)
+require(grid)
+
+  g11 <- ggplotGrob(LSPlotStripped(h, ap[1], bp[1]))
+  g12 <- ggplotGrob(LSPlotStripped(h, ap[1], bp[2]))
+  g13 <- ggplotGrob(LSPlotStripped(h, ap[1], bp[3]))
+  
+g1 <- cbind(g11, g12, g13, size = 'first')
+
+  g21 <- ggplotGrob(LSPlotStripped(h, ap[2], bp[1]))
+  g22 <- ggplotGrob(LSPlotStripped(h, ap[2], bp[2]))
+  g23 <- ggplotGrob(LSPlotStripped(h, ap[2], bp[3]))
+
+g2 <- cbind(g21, g22, g23, size = 'first')
+
+  g31 <- ggplotGrob(LSPlotStripped(h, ap[3], bp[1]))
+  g32 <- ggplotGrob(LSPlotStripped(h, ap[3], bp[2]))
+  g33 <- ggplotGrob(LSPlotStripped(h, ap[3], bp[3]))
+
+g3 <- cbind(g31, g32, g33, size = 'first')
+
+g <- rbind(g1, g2, g3, size = 'first')
+
+grid.newpage()
+grid.draw(g)
+```
+
+More about the multiple plots here: https://cran.r-project.org/web/packages/egg/vignettes/Ecosystem.html
