@@ -238,6 +238,14 @@ g3 <- cbind(g31, g32, g33, size = 'first')
 
 g <- rbind(g1, g2, g3, size = 'first')
 
+
+if (FALSE) {
+funn <- function(x, y){
+  return(LSPlotStripped(h, x, y))
+}
+mat <- outer(ap, bp, funn)
+}
+
 grid.newpage()
 grid.draw(g)
 ```
