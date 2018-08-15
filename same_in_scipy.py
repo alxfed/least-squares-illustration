@@ -12,9 +12,9 @@ y = [0.25, 0.55, 0.45, 0.7]
 
 a = 0.6; b = 0.2       # wild guess parameters of the linear model
 
-plt.axis('square')
+plt.axis('square')     # aspect ratio of the plot
 plt.axis([0, 1, 0, 1])
-plt.plot(x, y, 'ro')
+plt.plot(x, y, 'ro')   # 'ro' stands for 'red' 'o' s
 
 plt.show()
 
